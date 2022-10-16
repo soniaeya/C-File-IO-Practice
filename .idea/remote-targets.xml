@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="WSL - Ubuntu" type="wsl" uuid="b302c67d-b41c-4e92-b6e2-d3b4693aef2e">
+        <config>
+          <option name="distributionMsId" value="Ubuntu" />
+          <option name="projectRootOnTarget" value="/mnt/c/Program Files/JetBrains/CLion 2022.2/jbr/bin&#10;/untitled2" />
+        </config>
+      </target>
+      <target name="WSL - Ubuntu2" type="wsl" uuid="4c75ca2f-4594-499e-ad5e-46cc16abde33">
+        <config>
+          <option name="distributionMsId" value="Ubuntu" />
+          <option name="projectRootOnTarget" value="/mnt/c/Program Files/JetBrains/CLion 2022.2/jbr/bin&#10;/untitled2" />
+        </config>
+      </target>
+    </targets>
+  </component>
+</project>
