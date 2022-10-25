@@ -23,7 +23,6 @@ int count_int = 0;
 
 int text (FILE *fptr, char file_name [], char * input){
     int count_int = 0;
-
     char line_output[1000];
     char delim[] = " ";
     char replacement [1000];
@@ -39,7 +38,7 @@ int text (FILE *fptr, char file_name [], char * input){
     while(ptr){     //checks each word
         const char * c = input;
         //prints each word
-        if(strcmp(ptr, c)==0){
+        if(strstr(ptr, c)){
             char replace_str [strlen(ptr)];
             for(int i = 0; i< strlen(ptr)+1;i++){      //get replacement string
                 upper = (char) toupper(ptr[i]);
@@ -50,14 +49,32 @@ int text (FILE *fptr, char file_name [], char * input){
                 strncat(replacement,replace_str, 256);
             }
             else{
-                strncat(replacement,empty, 256);
                 strncat(replacement,replace_str, 256);
+                strncat(replacement,empty, 256);
             }
 
             count_int = count_int +1;
-            /*
-             * one two three
-             */
+
+        }
+
+        else if(strcmp(ptr, c)==0){
+
+            char replace_str [strlen(ptr)];
+            for(int i = 0; i< strlen(ptr)+1;i++){      //get replacement string
+                upper = (char) toupper(ptr[i]);
+                replace_str[i] = upper;
+            }
+
+            if(replacement == ""){
+                strncat(replacement,replace_str, 256);
+            }
+            else{
+
+                strncat(replacement,replace_str, 256);
+                strncat(replacement,empty, 256);
+            }
+
+            count_int = count_int +1;
 
         }
         else{
@@ -66,30 +83,22 @@ int text (FILE *fptr, char file_name [], char * input){
                 strncat(replacement,ptr, 256);
             }
             else{
-                strncat(replacement,empty, 256);
+
                 strncat(replacement,ptr, 256);
+                strncat(replacement,empty, 256);
             }
         }
-        //fputs(ptr, fptr);
-
         ptr = strtok(NULL, delim);
         newline_count++;
     }
-
     newline_count = 0;
 }
-
-    //printf("%s ", replacement);
     if(fptr = fopen(file_name, "w+")){      //opens the text file
 
         fputs(replacement, fptr);
     }
     *replacement = '\0';
-
-
-
     fclose(fptr);
-    printf("%d", count_int);
     return count_int;
 
 }
