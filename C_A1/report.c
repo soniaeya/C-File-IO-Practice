@@ -10,33 +10,45 @@
 //
 
 #include <stdio.h>
-#include <dirent.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <string.h>
-#include <ctype.h>
-
-#include "traversal.h"
-#include "text.h"
+#include <stdlib.h>
 #include "report.h"
 
-int report(char input [], char file_name_arr [], int changes_num_arr [], int file_counter_int){
+int compare(const void *a, const void *b)
+{
+
+    file_list *fileListA = (file_list *)a;
+    file_list *fileListB = (file_list *)b;
+
+    return (fileListB->count - fileListA->count);
+}
+
+int report(char *input, file_list fileList[SIZE]){
+    FILE *report;
     int count = 1;
     char delim[] = " ";
-    char *ptr = strtok(file_name_arr, delim);
+    report=fopen("report.txt","w");
+    char path[200];
+    getcwd(path,sizeof(path));
 
-    printf("%s", "Target String: ");
-    printf("%s", input);
-    printf("%s", "\nSearch begins in current folder: ");
-    //printf("%s", getcwd('.', 256));               //getcwd()
-    printf("\n\n%s\n\n", "** Search Report **");
-    printf("%s\t\t%s\n", "Updates", "File Name");
-    int i = 1;
-    while (ptr){
-        printf("%d\t\t%s\n", changes_num_arr [i], ptr);
-        ptr = strtok(NULL, delim);
-        i++;
+    if(report){
+        fprintf(report, "Target string: %s\nSearch begins in current folder: %s\n** Search Report **\nUpdates\t\tFile Name\n", input, path);
+        qsort(fileList,SIZE,sizeof(file_list),compare);
+        for(int i=0;i<SIZE;i++){
+            if(fileList[i].name!=NULL){
+                fprintf(report, "%i", fileList[i].count);
+                fputs("             ", report);
+                fputs(fileList[i].name, report);
+                fputs("\n", report);
+            }
+        }
+
+
+    }else{
+        printf("CANNOT GENERATE REPORT.TXT");
     }
+
+    fclose(report);
     return 0;
 
 }

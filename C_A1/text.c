@@ -9,10 +9,10 @@
 //
 
 #include <stdio.h>
-#include <dirent.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <string.h>
+
 #include <ctype.h>
 #include <stdlib.h>
 
@@ -36,6 +36,7 @@ int text (FILE *fptr, char file_name [], char * input){
     id: while (fgets(line_output, 1000, fptr)) {//check line in file
     char *ptr = strtok(line_output, delim);
     while(ptr){     //checks each word
+
         const char * c = input;
         //prints each word
         if(strstr(ptr, c)){

@@ -1,5 +1,5 @@
 
-
+#include <stdlib.h>
 #include <stdio.h>
 #include <dirent.h>
 #include <unistd.h>
@@ -8,7 +8,6 @@
 #include <ctype.h>
 
 #include "traversal.h"
-#include "text.h"
 #include "report.h"
 
 /*
@@ -27,84 +26,25 @@ I like an apple.txt. apple.txt is the one thing I want.
  * - fix: cannot put the last string in the line as upper case (need to add empty space to last element)
  *
  */
-
+file_list fileList[SIZE];
 int main(int argc, char *argv[]) {
-    DIR *folder;                    //Declaring directory
     //char directory_name []= "./dir2";
-    char directory_name []= ".";
+    char directory_name[]= ".";
     char * input = argv[1];
-    //Name of directory
-    folder = opendir(directory_name);    //Opening the directory
-    struct dirent *entry;
-
-    int count;
-
-    char file_name [255];
-    char empty [2] = " ";
-    char file_name_arr [3000];
-
-    int file_counter_int = 0;
-
-    int changes_num = 0;
-    int changes_num_arr [1000];
 
 
-    if(folder == NULL){
-        puts ("Unable to read directory");
-        return(1);
-    }
-    else{
+    int file_counter_int=traversal(directory_name,input);
 
-        while((entry = readdir(folder))){
-
-            FILE *fptr;
-
-            strncpy(file_name, entry->d_name, 254);
-            file_name [254] = '\0';     //get filename string
-            //printf("%s\n", file_name);
-
-            if (entry->d_type == DT_DIR){       //if it is a directory
-                int t;
-
-                //t = traversal(file_name, input);     //traverse through the directory
-
-                //printf ("Folder: %s\n", file_name);
-            }                // if file is a folder/directory
-
-            else {
-                if(strstr(file_name, ".txt") && !strstr(file_name, "CMakeLists.txt")){      //Check that the file is a text file
-                    file_counter_int++;
-                    if(fptr = fopen(file_name, "r+")){      //opens the text file
-
-                        strcat(file_name_arr, file_name);
-                        strcat(file_name_arr, empty);
-                        changes_num = text(fptr, file_name, input);     //text function DND
-                        changes_num_arr[file_counter_int] = changes_num;        //getting the num of changes in an array
-                        //printf("\n%d\n", changes_num);
-
-                    }
-                    changes_num = 0;
-                }
-                else{
-                    continue;
-                }
-
-            }
-        }
+    for(int i=file_counter_int;i<SIZE;i++){
+        fileList[i].count=0;
+        fileList[i].name=NULL;
     }
 
-    int file_couter_arr[file_counter_int];
+    report(input, fileList);
 
-    report(input, file_name_arr, changes_num_arr, file_counter_int);
-
-
-    int traversals;
-    printf("%s", "ffe");
-
-    //traversals = traversal(directory_name, input);
-
-    closedir(folder);
-    //printf("%d", traversal);
+    for(int i=0;i<SIZE;i++){
+        free(fileList[i].name);
+    }
     return 0;
 }
 

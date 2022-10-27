@@ -1,62 +1,91 @@
 //
 // Created by sonia on 2022-10-20.
 //
-
-#include "traversal.h"
+#define _GNU_SOURCE
 //
 // Created by sonia on 2022-10-15.
 //
 #include <stdio.h>
 #include <dirent.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <string.h>
-#include <ctype.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include "traversal.h"
 #include "text.h"
 #include "report.h"
 
-int traversal(char directory_name [], char* input[]){
+file_list fileList[SIZE];
+int file_counter_int = 0;
+
+int traversal(char directory_name [], char input[]){
+
+
     DIR *folder;                    //Declaring directory
     //Name of directory
-    folder = opendir(directory_name);    //Opening the directory
     struct dirent *entry;
-
-    int count;
-    FILE *fptr;
+    folder = opendir(directory_name);    //Opening the directory
     char file_name [255];
-    char empty [2] = " ";
-    char file_name_arr [2000];
-
-    int file_counter_int = 0;
-
+    FILE *fptr;
     int changes_num = 0;
-    int changes_num_arr [1000];
-    while((entry = readdir(folder))) {
+    struct stat path;
+    char newPath[200];
 
-        if (strstr(file_name, ".txt") &&
-            !strstr(file_name, "CMakeLists.txt")) {      //Check that the file is a text file
-            file_counter_int++;
-            if (fptr = fopen(file_name, "r+")) {      //opens the text file
+    if(folder == NULL){
+        puts ("Unable to read directory");
+        return(1);
+    }
 
-                strcat(file_name_arr, file_name);
-                strcat(file_name_arr, empty);
+    else {
+        printf("DIRECTORY HAS BEEN OPENED\n");
+        printf("%s\n","Sonia");
+        printf("Directory %s\n",directory_name);
+        printf("%s\n","Sonia");
+        while ((entry = readdir(folder))) {
 
+            stat(entry->d_name, &path);
 
-                changes_num = text(fptr, file_name, (char *) input);     //text function DND
+            if(strcmp(entry->d_name,"CMakeLists.txt")){
+                continue;
+            }
+            else if (strstr(entry->d_name, ".txt")) {      //Check that the file is a text file
+                file_counter_int++;
+                printf("%s\n",entry->d_name);
 
-                changes_num_arr[file_counter_int] = changes_num;        //getting the num of changes in an array
+                if (fptr = fopen(entry->d_name, "r+")) {      //opens the text file
+
+                    text(fptr,entry->d_name,input);
+                    fclose(fptr);
+
+                }
+                fileList[file_counter_int].count = changes_num;
+                fileList[file_counter_int].name=(char*)malloc(strlen(file_name+1));
+                strcpy(fileList[file_counter_int].name,file_name);
+                fileList[file_counter_int].name[strlen(file_name)+1]='\0';
+
+                changes_num = 0;
+
+            } else if( entry->d_name[0] != '.' && strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0 && strcmp(entry->d_name,"cmake-build-debug") && strstr(entry->d_name,".txt")) {
+                strcpy(newPath, directory_name);
+                strcat(newPath, "/");
+                strcat(newPath, entry->d_name);
+                printf("%s\n",newPath);
+                traversal(newPath, input);
 
 
             }
-            changes_num = 0;
-        } else {
-            continue;
         }
+
+
     }
-    return (0);
+
+    if(closedir(folder)==0){
+        printf("SUCCESSFULLY CLOSED THE DIR\n");
+    }else{
+        printf("CANNOT CLOSE THE DIR\n");
+    }
+
+    return file_counter_int;
 }

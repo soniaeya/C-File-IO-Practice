@@ -4,6 +4,12 @@
 
 #ifndef C_A1_TRAVERSAL_H
 #define C_A1_TRAVERSAL_H
-int traversal(char directory_name [], char* input[]);
+#define SIZE 100
+int traversal(char directory_name [], char input[]);
+typedef struct{
+    int count;
+    char*name;
+}file_list;
+
 #endif //C_A1_TRAVERSAL_H
 

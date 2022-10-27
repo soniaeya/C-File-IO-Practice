@@ -1,6 +1,7 @@
-cmake_minimum_required(VERSION 3.23)
-project(C_A1 C)
+cmake_minimum_required(VERSION3.23)
+project(C_A1C)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD99)
 
-add_executable(C_A1 replace.c text.c text.h traversal.c traversal.h report.c report.h)
+add_executable(C_A1replace.ctext.ctext.h traversal.c traversal.h report.c report.h a.c a.h)
+ 

@@ -77,6 +77,13 @@ build CMakeFiles\C_A1.dir\report.c.obj: C_COMPILER__C_A1_Debug C$:\Users\sonia\C
   TARGET_COMPILE_PDB = CMakeFiles\C_A1.dir\
   TARGET_PDB = C_A1.pdb
 
+build CMakeFiles\C_A1.dir\a.c.obj: C_COMPILER__C_A1_Debug C$:\Users\sonia\CLionProjects\C_A1\a.c || cmake_object_order_depends_target_C_A1
+  FLAGS = /DWIN32 /D_WINDOWS /Zi /Ob0 /Od /RTC1 -MDd
+  OBJECT_DIR = CMakeFiles\C_A1.dir
+  OBJECT_FILE_DIR = CMakeFiles\C_A1.dir
+  TARGET_COMPILE_PDB = CMakeFiles\C_A1.dir\
+  TARGET_PDB = C_A1.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target C_A1
@@ -85,7 +92,7 @@ build CMakeFiles\C_A1.dir\report.c.obj: C_COMPILER__C_A1_Debug C$:\Users\sonia\C
 #############################################
 # Link the executable C_A1.exe
 
-build C_A1.exe: C_EXECUTABLE_LINKER__C_A1_Debug CMakeFiles\C_A1.dir\replace.c.obj CMakeFiles\C_A1.dir\text.c.obj CMakeFiles\C_A1.dir\traversal.c.obj CMakeFiles\C_A1.dir\report.c.obj
+build C_A1.exe: C_EXECUTABLE_LINKER__C_A1_Debug CMakeFiles\C_A1.dir\replace.c.obj CMakeFiles\C_A1.dir\text.c.obj CMakeFiles\C_A1.dir\traversal.c.obj CMakeFiles\C_A1.dir\report.c.obj CMakeFiles\C_A1.dir\a.c.obj
   FLAGS = /DWIN32 /D_WINDOWS /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
